@@ -84,7 +84,7 @@ export const ProjectForm: React.FC<ProjectFormProps> = ({
   return (
     <>
      <div className="flex items-center justify-start gap-4">
-          <Button variant={"outline"} size={"icon"} onClick={() => router.push('/projects')}>
+          <Button variant={"outline"} size={"icon"} onClick={() => router.push('/')}>
             <ArrowLeft />
           </Button>
           <Heading title={title} description={description} />

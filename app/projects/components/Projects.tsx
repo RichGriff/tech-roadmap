@@ -2,8 +2,6 @@
 
 import React, { FC } from 'react'
 import { Heading } from '../../../components/Heading'
-import { Button } from '../../../components/ui/button'
-import { Plus } from 'lucide-react'
 import { Separator } from '../../../components/ui/separator'
 import { useRouter } from 'next/navigation'
 import { DataTable } from '../../../components/ui/data-table'

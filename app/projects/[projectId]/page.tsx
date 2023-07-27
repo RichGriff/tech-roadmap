@@ -10,7 +10,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
-import { format, compareAsc } from 'date-fns'
+import { format } from 'date-fns'
 
 const fetchProject = async (id:number) => {
     var myHeaders = new Headers();
@@ -85,10 +85,6 @@ const ProjectDetail = async ({ params }: { params: { projectId: number }}) => {
     const project = await fetchProject(params.projectId)
     const projectEpicTasks  = await fetchProjectEpicTasks(params.projectId, 2000312579)
     const projectTaskStatuses = await fetchProjectStatuses(params.projectId)
-
-    projectEpicTasks.map((t:any) => {
-      
-    })
   
     return ( 
       <div className="flex-col">

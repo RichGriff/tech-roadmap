@@ -1,3 +1,6 @@
+import { ProjectList } from "./projects/components/Projects";
+
+
 const fetchProjects = async () => {
   var myHeaders = new Headers();
   myHeaders.append("Content-Type", "application/json");
@@ -14,11 +17,13 @@ const fetchProjects = async () => {
   return result.projects
 }
 
-export default async function Home() {
+export default async function Projects() {
+  const projectsData = await fetchProjects()
+
   return (
     <div className="flex-col">
       <div className="flex-1 space-y-4 p-8 pt-6">
-        <h2>Summary</h2>
+        <ProjectList data={projectsData} />
       </div>
     </div>
   )
