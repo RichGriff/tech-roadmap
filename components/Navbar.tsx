@@ -24,9 +24,10 @@ export const Navbar: FC<NavbarProps> = ({  }) => {
                 width={70}
                 height={60}
                 alt='pobl logo'
+                className='hidden sm:block'
             />
           </div>
-          <div className='flex flex-1 h-10 justify-end items-center gap-2'>
+          <div className='flex flex-1 h-10 justify-start ml-4 sm:justify-end sm:ml-0 items-center gap-2'>
             <GitBranchIcon className='w-5 h-5 font-medium text-indigo-700' />
             <h2 className='font-semibold text-md text-indigo-600'>Technology Roadmap</h2>
           </div>
