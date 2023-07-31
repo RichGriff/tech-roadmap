@@ -2,6 +2,7 @@ import { ProjectList } from "./projects/components/Projects";
 
 
 const fetchProjects = async () => {
+  let projects:Project[] = []
   var myHeaders = new Headers();
   myHeaders.append("Content-Type", "application/json");
   myHeaders.append("Authorization", "Basic Vk05RHhSZjl0aWVKQVptTzZZN2k6");
@@ -9,12 +10,20 @@ const fetchProjects = async () => {
   var requestOptions:RequestInit = {
     method: 'GET',
     headers: myHeaders,
-    redirect: 'follow'
+    redirect: 'follow',
+    cache: 'no-store'
   };
 
   const response = await fetch(`https://pobl.freshservice.com/api/v2/pm/projects`, requestOptions)
   const result = await response.json()
-  return result.projects
+
+  result.projects.map((project:Project) => {
+    if(project.custom_fields.visible_to_business === 'Yes') {
+      projects.push(project)
+    }
+  })
+
+  return projects
 }
 
 export default async function Projects() {

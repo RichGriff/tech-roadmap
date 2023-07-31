@@ -36,7 +36,6 @@ type Project = {
 export const ProjectForm: React.FC<ProjectFormProps> = ({
   initialData
 }) => {
-    console.log(initialData)
   const params = useParams();
   const router = useRouter();
 

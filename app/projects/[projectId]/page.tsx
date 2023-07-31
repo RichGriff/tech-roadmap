@@ -18,9 +18,10 @@ const fetchProject = async (id:number) => {
     myHeaders.append("Authorization", "Basic Vk05RHhSZjl0aWVKQVptTzZZN2k6");
 
     var requestOptions: RequestInit = {
-    method: 'GET',
-    headers: myHeaders,
-    redirect: 'follow'
+      method: 'GET',
+      headers: myHeaders,
+      redirect: 'follow',
+      cache: 'no-store'
     };
 
     const response = await fetch(`https://pobl.freshservice.com/api/v2/pm/projects/${id}`, requestOptions)
@@ -34,9 +35,10 @@ const fetchProjectEpicTasks = async (id:number, typeId:number) => {
   myHeaders.append("Authorization", "Basic Vk05RHhSZjl0aWVKQVptTzZZN2k6");
 
   var requestOptions: RequestInit = {
-  method: 'GET',
-  headers: myHeaders,
-  redirect: 'follow'
+    method: 'GET',
+    headers: myHeaders,
+    redirect: 'follow',
+    cache: 'no-store'
   };
 
   const response = await fetch(`https://pobl.freshservice.com/api/v2/pm/projects/${id}/tasks/filter?query="type_id:${typeId}"`, requestOptions)
@@ -52,7 +54,8 @@ const fetchProjectStatuses = async (id:number) => {
   var requestOptions: RequestInit = {
   method: 'GET',
   headers: myHeaders,
-  redirect: 'follow'
+  redirect: 'follow',
+    cache: 'no-store'
   };
 
   const response = await fetch(`https://pobl.freshservice.com/api/v2/pm/projects/${id}/task-statuses`, requestOptions)
@@ -111,7 +114,7 @@ const ProjectDetail = async ({ params }: { params: { projectId: number }}) => {
                       <TableRow key={task.id}>
                         <TableCell className="w-6/12">
                           <div className="flex flex-col justify-start items-start">
-                            <Badge className="my-1 bg-indigo-500 hover:bg-indigo-600">Epic</Badge>
+                            {/* <Badge className="my-1 bg-indigo-500 hover:bg-indigo-600">Epic</Badge> */}
                             <div className="flex justify-start items-center gap-2 text-base font-medium">
                               {task.title}
                               <span className="text-slate-400 text-xs">({task.display_key})</span>
@@ -121,7 +124,9 @@ const ProjectDetail = async ({ params }: { params: { projectId: number }}) => {
                             {cleanDescription(task.description)}
                           </div>
                         </TableCell>
-                        <TableCell>{val[0].name}</TableCell>
+                        <TableCell>
+                          <Badge className="my-1 bg-indigo-500 hover:bg-indigo-600">{val[0].name}</Badge>
+                        </TableCell>
                         <TableCell>{(task.planned_start_date != null) ? format(new Date(task.planned_start_date), 'dd/MM/yyyy') : '-'}</TableCell>
                         <TableCell>{(task.planned_end_date != null) ? format(new Date(task.planned_end_date), 'dd/MM/yyyy') : '-'}</TableCell>
                       </TableRow>

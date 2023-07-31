@@ -29,7 +29,7 @@ export const CellName: React.FC<CellActionProps> = ({
   const formattedDesc = data.description?.replace(regex, '');
   
   return (
-    <div className="flex justify-start items-center gap-4">
+    <div className="flex justify-start items-center gap-4 w-[200px] sm:w-auto">
       <Link href={`/projects/${data.id}`} className="hover:text-indigo-500 font-medium">
         {data.name}
       </Link>
