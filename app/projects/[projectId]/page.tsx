@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/table"
 import { format } from 'date-fns'
 import { Calendar } from "lucide-react";
+import { cleanDescription } from "@/lib/utils";
 
 const fetchProject = async (id:number) => {
     var myHeaders = new Headers();
@@ -78,11 +79,6 @@ const fetchProjectSprints = async (id:number) => {
   const response = await fetch(`https://pobl.freshservice.com/api/v2/pm/projects/${id}/sprints`, requestOptions)
   const result = await response.json()
   return result.sprints
-}
-
-const cleanDescription = (val: string) => {
-  const regex = /(<([^>]+)>)/ig;
-  return val.replace(regex, '');
 }
 
 const ProjectDetail = async ({ params }: { params: { projectId: number }}) => {

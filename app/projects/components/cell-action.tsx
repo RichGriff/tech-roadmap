@@ -14,7 +14,8 @@ import {
 
 import { ProjectColumns } from "./columns";
 import { useState } from "react";
-import { Copy, Eye, ListTodo, MoreHorizontal } from "lucide-react";
+import { Copy, Eye, ListTodo, MoreHorizontal, Share } from "lucide-react";
+import { useToast } from "@/components/ui/use-toast"
 
 interface CellActionProps {
   data: ProjectColumns;
@@ -27,6 +28,7 @@ export const CellAction: React.FC<CellActionProps> = ({
   const params = useParams();
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
+  const { toast } = useToast()
 
 //   const onConfirm = async () => {
 //     try {
@@ -42,10 +44,21 @@ export const CellAction: React.FC<CellActionProps> = ({
 //     }
 //   };
 
-//   const onCopy = (id: string) => {
-//     navigator.clipboard.writeText(id);
-//     toast.success('Billboard ID copied to clipboard.');
-//   }
+  const onCopy = (name: string) => {
+    navigator.clipboard.writeText(name);
+    toast({
+      title: "Project Name Copied",
+      description: `${name} Copied!`,
+    })
+  }
+
+  const onShare = (url: string) => {
+    navigator.clipboard.writeText(url)
+    toast({
+      title: "Share Project",
+      description: `${url} copied to clipboard`,
+    })
+  }
 
   return (
     <>
@@ -59,15 +72,20 @@ export const CellAction: React.FC<CellActionProps> = ({
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(data.name)}
+              onClick={() => onCopy(data.name)}
             >
               <Copy className="w-4 h-4 mr-2"/>Copy Project Name
+            </DropdownMenuItem>
+            <DropdownMenuItem
+              onClick={() => onShare(`${window.location}projects/${data.id}`) }
+            >
+              <Share className="w-4 h-4 mr-2"/>Share Project
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem onClick={() => router.push(`/projects/${data.id}`)} >
                 <Eye className="mr-2 h-4 w-4" /> View Detail
             </DropdownMenuItem>
-            <DropdownMenuItem><ListTodo className="w-4 h-4 mr-2"/>View Tasks</DropdownMenuItem>
+            {/* <DropdownMenuItem><ListTodo className="w-4 h-4 mr-2"/>View Tasks</DropdownMenuItem> */}
           </DropdownMenuContent>
         </DropdownMenu>
     </>
