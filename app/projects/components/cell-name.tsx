@@ -28,13 +28,30 @@ export const CellName: React.FC<CellActionProps> = ({
   const [loading, setLoading] = useState(false);
   const regex = /(<([^>]+)>)/ig;
   const formattedDesc = data.description?.replace(regex, '');
+  let ragColor = 'bg-slate-200'
+
+  switch (data.custom_fields.rag_rating) {
+    case 'Green':
+      ragColor = 'bg-emerald-500'
+      break;
+    case 'Amber':
+      ragColor = 'bg-amber-400'
+      break;
+    case 'Red':
+      ragColor = 'bg-red-500'
+      break;
+    default:
+      ragColor = 'bg-slate-200'
+      break;
+  }
   
   return (
     <div className="flex flex-col justify-start items-start gap-4 max-w-xl">
       <div className="">
-        <Link href={`/projects/${data.id}`} className="hover:text-indigo-500 font-medium">
+        <Link href={`/projects/${data.id}`} className="hover:text-indigo-500 font-medium text-[1rem]">
           {data.name}
         </Link>
+        <span className={`inline-block mx-4 w-3 h-3 rounded-full ${ragColor}`}></span>
       </div>
       <div className="text-slate-600">
         {data.description && (

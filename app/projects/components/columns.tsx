@@ -23,6 +23,9 @@ export type ProjectColumns = {
   status_id: number,
   start_date: string
   end_date: string
+  custom_fields: {
+    rag_rating: string
+  }
 }
 
 export const columns: ColumnDef<ProjectColumns>[] = [
