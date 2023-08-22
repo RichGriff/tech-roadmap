@@ -3,7 +3,7 @@ import { ProjectList } from "./projects/components/Projects";
 
 
 export default async function Projects() {
-  const { data } = await axios.get(`http://localhost:3000/api/projects`)
+  const { data } = await axios.get(`${process.env.API_URL}/api/projects`)
 
   return (
     <div className="flex-col">
