@@ -26,9 +26,7 @@ export const ProjectList: FC<ProjectsProps> = ({ }) => {
     const [isLoading, setIsLoading] = useState<boolean>(true)
 
     const fetchProjects = async () => {
-        const response = await fetch(`/api/projects`, {
-            next: { revalidate: 0 },
-        });
+        const response = await fetch(`/api/projects`);
         const result = await response.json();
         return result
         // const projects = await axios.get(`/api/projects`)
