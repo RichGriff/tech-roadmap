@@ -17,6 +17,8 @@ import axios from 'axios'
 interface ProjectsProps {
 }
 
+export const revalidate = 10;
+
 export const ProjectList: FC<ProjectsProps> = ({ }) => {
     const router = useRouter();
     const [searchTerm, setSearchTerm] = useState('')
