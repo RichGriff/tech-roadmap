@@ -24,54 +24,23 @@ export const ProjectList: FC<ProjectsProps> = ({ }) => {
     const [searchTerm, setSearchTerm] = useState('')
     const [data, setData] = useState<Project[]>([])
     const [isLoading, setIsLoading] = useState<boolean>(true)
-    
-    const fetchData = async () => {
-        let completed = false;
-        let page_number = 1;
-        let projects = []
-        let all_projects: any[] = []
 
-        while (!completed) {
-            try {
-                projects = await fetchProjects(page_number)
-                projects.map((project: Project) => all_projects.push(project))
-                const fetchMore = await CheckProjectCount(projects)
-                if(fetchMore) {
-                    page_number = page_number + 1
-                    projects = await fetchProjects(page_number)
-                } else {
-                    completed = true
-                }
-            } catch (error) {
-                console.log(`Error ${error}`)
-            }
-        }
-        
-        const visibleProjects = all_projects.filter(x => x.custom_fields.visible_to_business == 'Yes')
-        return visibleProjects
-    }
-
-    const fetchProjects = async (page_number: number) => {
-        const response = await fetch(`/api/projects?page=${page_number}`, { cache: 'no-store' });
+    const fetchProjects = async () => {
+        // const response = await fetch(`/api/projects`, {
+        //     next: { revalidate: 0 },
+        // });
+        const response = await fetch(`/api/projects`);
         const result = await response.json();
         return result
-    }
-
-    const CheckProjectCount = async (projects:any) => {
-        if(projects.length === 10) {
-            return true
-    
-        } else if(projects.length <= 10) {
-            return false
-        }
+        // const projects = await axios.get(`/api/projects`)
+        // return projects
     }
 
     useEffect(() => {
-        // fetchProjects().then(result => {
-        //     setData(result)
-        //     setIsLoading(false)
-        // })
-        fetchData().then(result => console.log(result))
+        fetchProjects().then(result => {
+            setData(result)
+            setIsLoading(false)
+        })
     }, [])
 
     function getFilteredList() {
