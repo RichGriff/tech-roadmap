@@ -25,28 +25,17 @@ export const ProjectForm: React.FC<ProjectFormProps> = ({
   const [loading, setLoading] = useState(false);
 
   const title = initialData ? initialData.name : 'No Project Found';
-  const description = initialData ? 'Below are the exisiting tasks identified for the project.' : '';
+  const description = initialData ? initialData.description : '';
+  const sponsor = initialData ? initialData.custom_fields.business_owner : ''
+  const partner = initialData ? initialData.custom_fields.tech_delivery_lead : ''
 
   return (
     <>
       <div className="mb-8">
         <Breadcrumb project={initialData} />
       </div>
-      <div className="flex items-center justify-start gap-4">
-          {/* <Button variant={"outline"} size={"icon"} onClick={() => router.push('/')}>
-            <ArrowLeft />
-          </Button> */}
-          <Heading title={title} description={description} />
-        {/* {initialData && (
-          <Button
-            disabled={loading}
-            variant="destructive"
-            size="sm"
-            onClick={() => setOpen(true)}
-          >
-            <Trash className="h-4 w-4" />
-          </Button>
-        )} */}
+      <div className="flex flex-col items-start justify-start gap-4">
+          <Heading title={title} description={description} sponsor={sponsor} partner={partner} />
       </div>
       <Separator />
     </>

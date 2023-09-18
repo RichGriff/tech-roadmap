@@ -11,7 +11,7 @@ import {
   TableRow,
 } from "@/components/ui/table"
 import { format } from 'date-fns'
-import { Calendar } from "lucide-react";
+import { Calendar, Contact2 } from "lucide-react";
 import { cleanDescription } from "@/lib/utils";
 
 const fetchProject = async (id:number) => {
@@ -100,6 +100,7 @@ const ProjectDetail = async ({ params }: { params: { projectId: number }}) => {
                       <TableRow>
                         <TableHead>Title</TableHead>
                         <TableHead>Status</TableHead>
+                        <TableHead>Tech Delivery</TableHead>
                         <TableHead>Start</TableHead>
                         <TableHead>End</TableHead>
                       </TableRow>
@@ -107,7 +108,22 @@ const ProjectDetail = async ({ params }: { params: { projectId: number }}) => {
                     <TableBody>
                     {projectEpicTasks ? (
                     projectEpicTasks.map((task:any, index:number) => {
+                      let ragColor
                       let val = projectTaskStatuses.filter((x:any) => x.id === task.status_id)
+                      switch (task.custom_fields.rag_rating) {
+                        case 'Green':
+                          ragColor = 'bg-emerald-500'
+                          break;
+                        case 'Amber':
+                          ragColor = 'bg-amber-400'
+                          break;
+                        case 'Red':
+                          ragColor = 'bg-red-500'
+                          break;
+                        default:
+                          ragColor = 'bg-slate-200'
+                          break;
+                      }
                       return (
                         <TableRow key={task.id}>
                           <TableCell className="w-6/12">
@@ -115,7 +131,8 @@ const ProjectDetail = async ({ params }: { params: { projectId: number }}) => {
                               {/* <Badge className="my-1 bg-indigo-500 hover:bg-indigo-600">Epic</Badge> */}
                               <div className="flex justify-start items-center gap-2 text-base font-medium">
                                 {task.title}
-                                <span className="text-slate-400 text-xs">({task.display_key})</span>
+                                {/* <span className="text-slate-400 text-xs">({task.display_key})</span> */}
+                                <span className={`inline-block mx-2 w-3 h-3 rounded-full ${ragColor}`}></span>
                               </div>
                             </div>
                             <div className="mt-3 text-sm text-slate-400">
@@ -124,6 +141,9 @@ const ProjectDetail = async ({ params }: { params: { projectId: number }}) => {
                           </TableCell>
                           <TableCell>
                             <Badge className="my-1 bg-indigo-500 hover:bg-indigo-600">{val[0].name}</Badge>
+                          </TableCell>
+                          <TableCell>
+                            {(task.custom_fields.tech_delivery_partner != null) ? task.custom_fields.tech_delivery_partner : '-'}
                           </TableCell>
                           <TableCell>{(task.planned_start_date != null) ? format(new Date(task.planned_start_date), 'dd/MM/yyyy') : '-'}</TableCell>
                           <TableCell>{(task.planned_end_date != null) ? format(new Date(task.planned_end_date), 'dd/MM/yyyy') : '-'}</TableCell>
@@ -202,13 +222,22 @@ const ProjectDetail = async ({ params }: { params: { projectId: number }}) => {
                       <p className="mb-4 font-normal text-slate-600 dark:text-gray-400">
                         {cleanDescription(task.description)}
                       </p>
-                      <div className='flex justify-start items-center gap-3'>
-                          <Calendar className='w-4 h-4' />
-                          <p className='text-sm text-slate-600'>
-                          {(task.planned_start_date != null) ? format(new Date(task.planned_start_date), 'dd/MM/yyyy') : '-'} 
-                          - 
-                          {(task.planned_end_date != null) ? format(new Date(task.planned_end_date), 'dd/MM/yyyy') : '-'}
-                          </p>
+                      <div className="space-y-4">
+                        <div className='flex justify-start items-center gap-3'>
+                            <Calendar className='w-4 h-4' />
+                            <p className='text-sm text-slate-600'>
+                            {(task.planned_start_date != null) ? format(new Date(task.planned_start_date), 'dd/MM/yyyy') : '-'} 
+                            - 
+                            {(task.planned_end_date != null) ? format(new Date(task.planned_end_date), 'dd/MM/yyyy') : '-'}
+                            </p>
+                        </div>
+                        {project.custom_fields.tech_delivery_partner && (
+                        <div className='flex justify-start items-center gap-3'>
+                            <Contact2 className='w-4 h-4' />
+                            <p className='text-sm text-slate-600'>
+                                Tech Delivery: {project.custom_fields.tech_delivery_partner}
+                            </p>
+                        </div>)}
                       </div>
                     </div>
                   )

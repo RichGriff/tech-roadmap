@@ -1,6 +1,6 @@
 import { Badge } from '@/components/ui/badge'
 import { cleanDescription } from '@/lib/utils'
-import { Calendar } from 'lucide-react'
+import { Calendar, Contact2 } from 'lucide-react'
 import Link from 'next/link'
 import React, { FC } from 'react'
 
@@ -20,11 +20,21 @@ export const ProjectCard: FC<ProjectCardProps> = ({ project }) => {
         <p className="mb-4 font-normal text-slate-600 dark:text-gray-400">
           {cleanDescription(project.description)} 
         </p>
+        <div className='space-y-4'>
         <div className='flex justify-start items-center gap-3'>
             <Calendar className='w-4 h-4' />
             <p className='text-sm text-slate-600'>
                 {project.start_date} - {project.end_date}
             </p>
+        </div>
+        {project.custom_fields.business_owner && (
+        <div className='flex justify-start items-center gap-3'>
+            <Contact2 className='w-4 h-4' />
+            <p className='text-sm text-slate-600'>
+                Business Owner: {project.custom_fields.business_owner}
+            </p>
+        </div>
+        )}
         </div>
     </div>
   )

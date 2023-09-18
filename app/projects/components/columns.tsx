@@ -1,16 +1,8 @@
 "use client"
 
 import { ColumnDef } from "@tanstack/react-table"
-import { Copy, Eye, ListTodo, MoreHorizontal, ArrowUpDown } from "lucide-react"
+import { ArrowUpDown } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
 import { Badge } from "@/components/ui/badge"
 import { CellAction } from "./cell-action"
 import { CellName } from "./cell-name"
@@ -24,7 +16,9 @@ export type ProjectColumns = {
   start_date: string
   end_date: string
   custom_fields: {
-    rag_rating: string
+    rag_rating: string,
+    business_owner: string,
+    tech_delivery_lead: string
   }
 }
 
@@ -56,6 +50,16 @@ export const columns: ColumnDef<ProjectColumns>[] = [
         )
     }
   }, 
+  {
+    accessorKey: "business_owner",
+    header: "Sponsor",
+    cell: ({ row }) => { return <div className="w-[100px]">{row.original.custom_fields.business_owner}</div>}
+  },
+  {
+    accessorKey: "tech_delivery_lead",
+    header: "Delivery Partner",
+    cell: ({ row }) => { return row.original.custom_fields.tech_delivery_lead}
+  },
   {
     accessorKey: "start_date",
     header: ({ column }) => {
