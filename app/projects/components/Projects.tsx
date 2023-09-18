@@ -42,7 +42,6 @@ export const ProjectList: FC<ProjectsProps> = ({ }) => {
     }, [])
 
     function getFilteredList() {
-        console.log('SEARCH', searchTerm)
         let filteredData
 
         if (!searchTerm) {

@@ -31,7 +31,7 @@ import {
     SelectValue,
 } from "@/components/ui/select"
 import { Input } from '@/components/ui/input'
-import { RotateCcw, SlidersHorizontal } from 'lucide-react'
+import { Activity, RotateCcw, SlidersHorizontal, User2, Users2 } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 
 interface ProjectFilterProps {
@@ -127,7 +127,8 @@ export const ProjectFilter: FC<ProjectFilterProps> = ({ setSearchTerm, getFilter
                                     name='businessOwner'
                                     render={({ field }) => (
                                         <FormItem>
-                                            <FormLabel className='text-xs font-bold text-slate-500 dark:text-secondary/70'>
+                                            <FormLabel className='text-sm flex justify-start items-center font-semibold text-slate-800 dark:text-secondary/70'>
+                                                <User2 className='w-4 h-4 mr-2' />
                                                 Business Owner
                                             </FormLabel>
                                             <FormControl>
@@ -146,7 +147,8 @@ export const ProjectFilter: FC<ProjectFilterProps> = ({ setSearchTerm, getFilter
                                     name='techDelivery'
                                     render={({ field }) => (
                                         <FormItem>
-                                            <FormLabel className='text-xs font-bold text-slate-500 dark:text-secondary/70'>
+                                            <FormLabel className='text-sm flex justify-start items-center font-semibold text-slate-800 dark:text-secondary/70'>
+                                                <Users2 className='w-4 h-4 mr-2' />
                                                 Tech Delivery Partner
                                             </FormLabel>
                                             <FormControl>
@@ -165,7 +167,8 @@ export const ProjectFilter: FC<ProjectFilterProps> = ({ setSearchTerm, getFilter
                                     name="status"
                                     render={({ field }) => (
                                     <FormItem>
-                                        <FormLabel className='text-xs font-bold text-slate-500 dark:text-secondary/70'>
+                                        <FormLabel className='text-sm flex justify-start items-center font-semibold text-slate-800 dark:text-secondary/70'>
+                                            <Activity className='w-4 h-4 mr-2' />
                                             Status
                                         </FormLabel>
                                         <Select
