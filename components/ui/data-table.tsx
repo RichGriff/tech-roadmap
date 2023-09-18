@@ -10,6 +10,7 @@ import {
   getFilteredRowModel,
   SortingState,
   getSortedRowModel,
+  VisibilityState,
 } from "@tanstack/react-table"
 import { Input } from "@/components/ui/input"
 import {
@@ -20,18 +21,32 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
+import {
+    DropdownMenu,
+    DropdownMenuCheckboxItem,
+    DropdownMenuContent,
+    DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+import { Button } from "./button"
+import { ProjectFilter } from "@/app/projects/components/ProjectFilter"
+import { Columns } from "lucide-react"
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
   data: TData[]
+  setSearchTerm: React.SetStateAction<any>
+  getFilteredList: () => void
 }
 
 export function DataTable<TData, TValue>({
   columns,
   data,
+  setSearchTerm,
+  getFilteredList
 }: DataTableProps<TData, TValue>) {
     const [sorting, setSorting] = React.useState<SortingState>([])
     const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([])
+    const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({})
     
     const table = useReactTable({
         data,
@@ -41,9 +56,11 @@ export function DataTable<TData, TValue>({
         getFilteredRowModel: getFilteredRowModel(),
         onSortingChange: setSorting,
         getSortedRowModel: getSortedRowModel(),
+        onColumnVisibilityChange: setColumnVisibility,
         state: {
             sorting,
             columnFilters,
+            columnVisibility,
         },
     })
 
@@ -58,6 +75,35 @@ export function DataTable<TData, TValue>({
                 }
                 className="max-w-sm"
                 />
+                <ProjectFilter setSearchTerm={setSearchTerm} getFilteredList={getFilteredList} />
+                <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                        <Button variant="outline" className="ml-auto">
+                            <Columns className="w-4 h-4 mr-2" /> Columns
+                        </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="end">
+                        {table
+                        .getAllColumns()
+                        .filter(
+                            (column) => column.getCanHide()
+                        )
+                        .map((column) => {
+                            return (
+                            <DropdownMenuCheckboxItem
+                                key={column.id}
+                                className="capitalize"
+                                checked={column.getIsVisible()}
+                                onCheckedChange={(value) =>
+                                column.toggleVisibility(!!value)
+                                }
+                            >
+                                {column.id}
+                            </DropdownMenuCheckboxItem>
+                            )
+                        })}
+                    </DropdownMenuContent>
+                </DropdownMenu>
             </div>
             <div className="rounded-md border">
             <Table>
