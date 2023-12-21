@@ -182,14 +182,29 @@ export const ProjectFilter: FC<ProjectFilterProps> = ({ setSearchTerm, getFilter
                                             </SelectTrigger>
                                         </FormControl>
                                         <SelectContent>
-                                            <SelectItem value={'1'}>
-                                                Not Started
+                                            <SelectItem value={'Backlog'}>
+                                                Backlog
                                             </SelectItem>
-                                            <SelectItem value={'2'}>
+                                            <SelectItem value={'Requirements gathering'}>
+                                                Requirements Gathering
+                                            </SelectItem>
+                                            <SelectItem value={'In Progress'}>
                                                 In Progress
                                             </SelectItem>
-                                            <SelectItem value={'3'}>
+                                            <SelectItem value={'In Pre-Release CAB'}>
+                                                In Pre-Release CAB
+                                            </SelectItem>
+                                            <SelectItem value={'Closed'}>
                                                 Completed
+                                            </SelectItem>
+                                            <SelectItem value={'Blocked'}>
+                                                Blocked
+                                            </SelectItem>
+                                            <SelectItem value={'Rejected'}>
+                                                Rejected
+                                            </SelectItem>
+                                            <SelectItem value={'On Hold'}>
+                                                On Hold
                                             </SelectItem>
                                         </SelectContent>
                                         </Select>

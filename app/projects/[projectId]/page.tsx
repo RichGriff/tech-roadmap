@@ -13,6 +13,8 @@ import {
 import { format } from 'date-fns'
 import { Calendar, Contact2 } from "lucide-react";
 import { cleanDescription } from "@/lib/utils";
+import { DataTable } from "@/components/ui/data-table";
+import { columns } from "./components/columns";
 
 const fetchProject = async (id:number) => {
     var myHeaders = new Headers();
@@ -85,6 +87,9 @@ const ProjectDetail = async ({ params }: { params: { projectId: number }}) => {
     const project = await fetchProject(params.projectId)
     const projectEpicTasks  = await fetchProjectEpicTasks(params.projectId, 2000312579)
     const projectTaskStatuses = await fetchProjectStatuses(params.projectId)
+
+    //@ts-ignore
+    projectEpicTasks.sort((a, b) => new Date(a.planned_start_date) - new Date(b.planned_start_date));
   
     return ( 
       <div className="flex-col">
@@ -102,7 +107,7 @@ const ProjectDetail = async ({ params }: { params: { projectId: number }}) => {
                         <TableHead>Status</TableHead>
                         <TableHead>Tech Delivery</TableHead>
                         <TableHead>Start</TableHead>
-                        <TableHead>End</TableHead>
+                        <TableHead>Estimated Completion Date</TableHead>
                       </TableRow>
                     </TableHeader>
                     <TableBody>
@@ -128,10 +133,8 @@ const ProjectDetail = async ({ params }: { params: { projectId: number }}) => {
                         <TableRow key={task.id}>
                           <TableCell className="w-6/12">
                             <div className="flex flex-col justify-start items-start">
-                              {/* <Badge className="my-1 bg-indigo-500 hover:bg-indigo-600">Epic</Badge> */}
                               <div className="flex justify-start items-center gap-2 text-base font-medium">
                                 {task.title}
-                                {/* <span className="text-slate-400 text-xs">({task.display_key})</span> */}
                                 <span className={`inline-block mx-2 w-3 h-3 rounded-full ${ragColor}`}></span>
                               </div>
                             </div>
@@ -140,7 +143,7 @@ const ProjectDetail = async ({ params }: { params: { projectId: number }}) => {
                             </div>
                           </TableCell>
                           <TableCell>
-                            <Badge className="my-1 bg-indigo-500 hover:bg-indigo-600">{val[0].name}</Badge>
+                            <Badge className={`my-1 ${(val[0].name === 'Closed') ? 'bg-emerald-500 hover:bg-emerald-600' : 'bg-indigo-500 hover:bg-indigo-600'}`}>{(val[0].name === 'Closed') ? 'Completed' : val[0].name}</Badge>
                           </TableCell>
                           <TableCell>
                             {(task.custom_fields.tech_delivery_partner != null) ? task.custom_fields.tech_delivery_partner : '-'}
@@ -156,51 +159,12 @@ const ProjectDetail = async ({ params }: { params: { projectId: number }}) => {
                     </TableBody>
                   </Table>
                 </div>
-                {/* <div className="p-2">
-                  <p className="text-sm text-muted-foreground mb-4">Project Sprints</p>
-                  <Table>
-                    <TableHeader>
-                      <TableRow>
-                        <TableHead>Title</TableHead>
-                        <TableHead>State</TableHead>
-                        <TableHead>Start</TableHead>
-                        <TableHead>End</TableHead>
-                      </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                    {projectSprints ? (
-                    projectSprints.map((sprint:any, index:number) => (
-                      <TableRow key={sprint.id}>
-                        <TableCell>
-                          <div className="flex flex-col justify-start items-start">
-                            {sprint.title}
-                          </div>
-                        </TableCell>
-                        <TableCell>
-                          <div className="flex flex-col justify-start items-start">
-                            {sprint.state == 1 ? 
-                            <Badge className="my-1 bg-slate-500 hover:bg-slate-600">Pending</Badge> 
-                            : 
-                            sprint.state == 2 ? 
-                            <Badge className="my-1 bg-blue-500 hover:bg-blue-600">Active</Badge> 
-                            : 
-                            <Badge className="my-1 bg-emerald-500 hover:bg-emerald-600">Completed</Badge>
-                            }
-                            
-                          </div>
-                        </TableCell>
-                        <TableCell>{(sprint.planned_start_date != null) ? format(new Date(sprint.planned_start_date), 'MM/dd/yyyy') : '-'}</TableCell>
-                        <TableCell>{(sprint.planned_end_date != null) ? format(new Date(sprint.planned_end_date), 'MM/dd/yyyy') : '-'}</TableCell>
-                      </TableRow>
-                    ))
-                    ) : (
-                      <TableCell><div className="text-slate-400">No Tasks Found.</div></TableCell>
-                    )}
-                    </TableBody>
-                  </Table>
-                </div> */}
               </div>
             </div>
+
+            {/* <div id='data-grid' className='hidden md:block'>
+                <DataTable columns={columns} data={projectEpicTasks} />
+            </div> */}
 
             <div id="task-cards" className="flex flex-col justify-start items-start gap-4 md:hidden">
 

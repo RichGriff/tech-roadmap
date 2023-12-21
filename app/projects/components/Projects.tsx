@@ -52,9 +52,12 @@ export const ProjectList: FC<ProjectsProps> = ({ }) => {
             filteredData = data.filter((item) => item.name.toLowerCase().includes(searchTerm.name?.toLowerCase()!))
         } else {
             filteredData = data.filter((item) => {
+                // const statusCondition = searchTerm.status
+                //     ? item.status_id === parseInt(searchTerm.status)
+                //     : true; // If searchTerm.status is not defined, don't filter by status
                 const statusCondition = searchTerm.status
-                    ? item.status_id === parseInt(searchTerm.status)
-                    : true; // If searchTerm.status is not defined, don't filter by status
+                    ? item.custom_fields.specific_project_status?.toLowerCase() === searchTerm.status.toLowerCase()
+                    : true; // If searchTerm.businessOwner is not defined, don't filter by businessOwner
 
                 const businessOwnerCondition = searchTerm.businessOwner
                     ? item.custom_fields.business_owner?.toLowerCase().includes(searchTerm.businessOwner.toLowerCase())

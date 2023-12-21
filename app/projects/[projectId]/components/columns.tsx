@@ -10,11 +10,11 @@ import { format } from "date-fns"
 
 export type ProjectColumns = {
   id: number
-  name: string
+  title: string
   description: string
   status_id: number,
-  start_date: string
-  end_date: string
+  planned_start_date: string
+  planned_end_date: string
   custom_fields: {
     rag_rating: string,
     business_owner: string,
@@ -25,8 +25,8 @@ export type ProjectColumns = {
 
 export const columns: ColumnDef<ProjectColumns>[] = [
   {
-    accessorKey: "name",
-    header: "Name",
+    accessorKey: "title",
+    header: "Title",
     cell: ({ row }) => <CellName data={row.original} />
   },
   {
@@ -70,17 +70,12 @@ export const columns: ColumnDef<ProjectColumns>[] = [
     }
   }, 
   {
-    accessorKey: "business_owner",
-    header: "Sponsor",
-    cell: ({ row }) => { return <div className="w-[100px]">{row.original.custom_fields.business_owner}</div>}
-  },
-  {
     accessorKey: "tech_delivery_lead",
     header: "Delivery Partner",
     cell: ({ row }) => { return row.original.custom_fields.tech_delivery_lead}
   },
   {
-    accessorKey: "start_date",
+    accessorKey: "planned_start_date",
     header: ({ column }) => {
         return (
           <a
@@ -94,11 +89,11 @@ export const columns: ColumnDef<ProjectColumns>[] = [
       },
     cell: ({ row }) => {
       const project = row.original
-      return (format(new Date(project.start_date), 'dd/MM/yyyy'))
+      return (format(new Date(project.planned_start_date), 'dd/MM/yyyy'))
     }
   }, 
   {
-    accessorKey: "end_date",
+    accessorKey: "planned_end_date",
     header: ({ column }) => {
         return (
           <a
@@ -112,7 +107,7 @@ export const columns: ColumnDef<ProjectColumns>[] = [
       },
     cell: ({ row }) => {
       const project = row.original
-      return (format(new Date(project.end_date), 'dd/MM/yyyy'))
+      return (format(new Date(project.planned_end_date), 'dd/MM/yyyy'))
     }
   },
   {

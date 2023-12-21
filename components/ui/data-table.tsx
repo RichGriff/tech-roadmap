@@ -34,8 +34,8 @@ import { Columns } from "lucide-react"
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
   data: TData[]
-  setSearchTerm: React.SetStateAction<any>
-  getFilteredList: () => void
+  setSearchTerm?: React.SetStateAction<any>
+  getFilteredList?: () => void
 }
 
 export function DataTable<TData, TValue>({
@@ -75,7 +75,7 @@ export function DataTable<TData, TValue>({
                 }
                 className="max-w-sm"
                 />
-                <ProjectFilter setSearchTerm={setSearchTerm} getFilteredList={getFilteredList} />
+                {getFilteredList && <ProjectFilter setSearchTerm={setSearchTerm} getFilteredList={getFilteredList} />}
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                         <Button variant="outline" className="ml-auto">
