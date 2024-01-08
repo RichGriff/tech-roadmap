@@ -123,9 +123,9 @@ const ProjectDetail = ({ params }: { params: { projectId: number }}) => {
         fetchProjectStatuses(params.projectId).then(statuses => setProjectTaskStatuses(statuses))
       }
     },[params.projectId])
-
+    
     //@ts-ignore
-    projectEpicTasks.sort((a, b) => new Date(a.planned_start_date) - new Date(b.planned_start_date));
+    projectEpicTasks.sort((a, b) => new Date(a.planned_end_date) - new Date(b.planned_end_date));
   
     return ( 
       <div className="flex-col">

@@ -24,6 +24,7 @@ export async function GET(req: Request) {
         }
     }
     
+    // all_projects.sort((a, b) => new Date(a.end_date) - new Date(b.end_date));
     const visibleProjects = all_projects.filter(x => x.custom_fields.visible_to_business == 'Yes')
     return NextResponse.json(visibleProjects)
 };

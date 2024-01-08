@@ -45,7 +45,9 @@ export const ProjectList: FC<ProjectsProps> = ({ }) => {
         let filteredData
 
         if (!searchTerm) {
-            return data;
+            //@ts-ignore
+            data.sort((a, b) => new Date(a.end_date) - new Date(b.end_date));
+            return data.filter(project => project.custom_fields.specific_project_status != 'On hold' && project.custom_fields.specific_project_status != 'Closed')
         }
 
         if(searchTerm.name) {
@@ -72,6 +74,8 @@ export const ProjectList: FC<ProjectsProps> = ({ }) => {
             });
         }
 
+        //@ts-ignore
+        filteredData.sort((a, b) => new Date(a.end_date) - new Date(b.end_date));
         return filteredData
     }
 

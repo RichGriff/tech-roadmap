@@ -30,6 +30,7 @@ import {
 import { Button } from "./button"
 import { ProjectFilter } from "@/app/projects/components/ProjectFilter"
 import { Columns } from "lucide-react"
+import { useRouter } from "next/navigation"
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
@@ -47,6 +48,8 @@ export function DataTable<TData, TValue>({
     const [sorting, setSorting] = React.useState<SortingState>([])
     const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([])
     const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({})
+
+    const router = useRouter();
     
     const table = useReactTable({
         data,
@@ -63,6 +66,10 @@ export function DataTable<TData, TValue>({
             columnVisibility,
         },
     })
+
+    const handleProjectSelection = (id: any) => {
+        router.push(`/projects/${id}`)
+    }
 
     return (
         <div>
@@ -131,6 +138,9 @@ export function DataTable<TData, TValue>({
                     <TableRow
                         key={row.id}
                         data-state={row.getIsSelected() && "selected"}
+                        //@ts-ignore
+                        onClick={() => handleProjectSelection(row.original.id)}
+                        className="hover:cursor-pointer"
                     >
                         {row.getVisibleCells().map((cell) => (
                         <TableCell key={cell.id}>

@@ -82,12 +82,13 @@ export const ProjectFilter: FC<ProjectFilterProps> = ({ setSearchTerm, getFilter
     }
 
     const handleReset = async () => {
-        setSearchTerm({
-            name: '',
-            businessOwner: '',
-            techDelivery: '',
-            status: ''
-        })
+        // setSearchTerm({
+        //     name: '',
+        //     businessOwner: '',
+        //     techDelivery: '',
+        //     status: ''
+        // })
+        setSearchTerm(null)
         getFilteredList()
         setShowReset(false)
     }
