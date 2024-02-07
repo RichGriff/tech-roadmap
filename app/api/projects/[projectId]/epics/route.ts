@@ -1,8 +1,12 @@
+import { getToken } from "next-auth/jwt"
 import { NextResponse } from "next/server"
 
 export const dynamic = 'force-dynamic'
 
-export async function GET(req: Request, { params }: { params: { projectId: string } }) {
+export async function GET(req: Request | any, { params }: { params: { projectId: string } }) {
+    const token = await getToken({ req })
+    if(!token) return NextResponse.json({ error: 'Unauthorised' }, { status: 401 })
+
     const projectId = parseInt(params.projectId)
     let completed = false;
     let page_number = 1;

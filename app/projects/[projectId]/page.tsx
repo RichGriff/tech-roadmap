@@ -20,6 +20,9 @@ import { columns } from "./components/columns";
 import { useEffect, useState } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 import ProjectHeaderSkeleton from "@/components/ui/project-header-skeleton";
+import { useSession } from "next-auth/react";
+import { authOptions } from "@/lib/authOptions";
+import { useRouter } from "next/navigation";
 
 // const fetchProjectSprints = async (id:number) => {
 //   var myHeaders = new Headers();
@@ -41,6 +44,9 @@ const ProjectDetail = ({ params }: { params: { projectId: number }}) => {
     const [project, setProject] = useState<Project>()
     const [projectEpicTasks, setProjectEpicTasks] = useState<any>([])
     const [projectTaskStatuses, setProjectTaskStatuses] = useState<any>([])
+
+    const router = useRouter()
+    const session = useSession()
 
     // const project = await fetchProject(params.projectId)
     // const projectEpicTasks  = await fetchProjectEpicTasks(params.projectId, 2000312579)
@@ -117,12 +123,16 @@ const ProjectDetail = ({ params }: { params: { projectId: number }}) => {
     // }
 
     useEffect(() => {
-      if(params.projectId) {
-        fetchProject(params.projectId).then(project => setProject(project))
-        fetchProjectEpicTasks(params.projectId).then(epics => setProjectEpicTasks(epics))
-        fetchProjectStatuses(params.projectId).then(statuses => setProjectTaskStatuses(statuses))
+      if(!session.data) {
+        router.push('/signin')
+      } else {
+        if(params.projectId) {
+          fetchProject(params.projectId).then(project => setProject(project))
+          fetchProjectEpicTasks(params.projectId).then(epics => setProjectEpicTasks(epics))
+          fetchProjectStatuses(params.projectId).then(statuses => setProjectTaskStatuses(statuses))
+        }
       }
-    },[params.projectId])
+    },[params.projectId, session])
     
     //@ts-ignore
     projectEpicTasks.sort((a, b) => new Date(a.planned_end_date) - new Date(b.planned_end_date));

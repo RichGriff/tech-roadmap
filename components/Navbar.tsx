@@ -4,12 +4,17 @@ import { ArrowLeft, GitBranchIcon, Inbox } from 'lucide-react'
 import Link from 'next/link'
 import { Button } from './ui/button'
 import Image from 'next/image'
+import SignInBtn from './SignInBtn'
+import { getServerSession } from 'next-auth'
+import { authOptions } from '@/lib/authOptions'
+import SignOutBtn from './SignOutBtn'
 
 interface NavbarProps {
   
 }
 
-export const Navbar: FC<NavbarProps> = ({  }) => {
+export const Navbar: FC<NavbarProps> = async ({  }) => {
+  const session = await getServerSession(authOptions)
   return (
     <div className="border-b">
       <div className="flex h-16 justify-start items-center px-4">
@@ -31,6 +36,14 @@ export const Navbar: FC<NavbarProps> = ({  }) => {
             <GitBranchIcon className='w-5 h-5 font-medium text-indigo-700' />
             <h2 className='font-semibold text-md text-indigo-600'>Technology Roadmap</h2>
           </div>
+          <div className='flex flex-1 h-10 justify-end items-center gap-2'>
+            {session?.user && (
+              <>
+                <p className='text-sm text-slate-500'>Logged in as: {session?.user?.name}</p>
+                <SignOutBtn />
+              </>
+            )}
+        </div>
           {/* <div className='bg-green-100 w-1/3 h-10 justify-start items-center'>
           </div> */}
         </div>

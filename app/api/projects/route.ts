@@ -1,12 +1,17 @@
+import { getToken } from "next-auth/jwt";
+import { redirect } from "next/navigation";
 import { NextResponse } from "next/server"
 
 export const dynamic = 'force-dynamic'
 
-export async function GET(req: Request) {
+export async function GET(req: any) {
     let completed = false;
     let page_number = 1;
     let projects = []
     let all_projects: any[] = []
+
+    const token = await getToken({ req })
+    if(!token) return NextResponse.json({ error: 'Unauthorised' }, { status: 401 })
 
     while (!completed) {
         try {

@@ -1,6 +1,14 @@
+import { getServerSession } from "next-auth";
 import { ProjectList } from "./projects/components/Projects";
+import { authOptions } from "@/lib/authOptions";
+import { redirect } from "next/navigation";
 
 export default async function Projects() {
+  const session = await getServerSession(authOptions)
+
+  if(!session || !session?.user) {
+    redirect('/signin')
+  }
 
   return (
     <div className="flex-col">
